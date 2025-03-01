@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tap_invest/core/constants.dart';
 import 'package:tap_invest/presentation/home/bloc/home_bloc.dart';
 import 'package:tap_invest/presentation/home/bloc/home_state.dart';
+import 'package:tap_invest/presentation/home/widgets/organization_card_widget.dart';
 import 'package:tap_invest/presentation/widgets/text_field_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,50 +68,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final result = state.results[index];
-                        return Container(
-                          padding: const EdgeInsets.all(16),
-                          margin: const EdgeInsets.only(
-                              bottom: 10), // Adds spacing between items
-                          width: double.infinity,
-                          height: 72,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Theme.of(context).canvasColor,
-                                backgroundImage:
-                                    CachedNetworkImageProvider(result.logo),
-                                child:
-                                    CachedNetworkImage(imageUrl: result.logo),
-                              ),
-                              kwidth10,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(result.isin),
-                                  Text(
-                                    result.companyName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        );
+                        return OrganizationCardWidget(result: result);
                       },
                       childCount: state.results.length,
                     ),
