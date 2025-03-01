@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tap_invest/core/theme/app_theme.dart';
 import 'package:tap_invest/di/injectable.dart';
 import 'package:tap_invest/presentation/home/bloc/home_bloc.dart';
 import 'package:tap_invest/presentation/home/home_screen.dart';
@@ -19,10 +20,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<HomeBloc>()),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: AppTheme.lightTheme,
         home: HomePage(),
       ),
     );
