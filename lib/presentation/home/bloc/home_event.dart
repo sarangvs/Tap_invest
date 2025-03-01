@@ -6,3 +6,12 @@ abstract class HomeEvent extends Equatable {
 }
 
 class FetchResults extends HomeEvent {}
+
+class SearchResults extends HomeEvent {
+  final String query;
+
+  SearchResults(this.query);
+
+  @override
+  List<Object> get props => [query];
+}

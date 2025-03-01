@@ -10,10 +10,20 @@ class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
   final List<ResultModel> results;
-  HomeLoaded(this.results);
+  final List<ResultModel> filteredResults;
+
+  HomeLoaded({required this.results, required this.filteredResults});
+
+  HomeLoaded copyWith(
+      {List<ResultModel>? results, List<ResultModel>? filteredResults}) {
+    return HomeLoaded(
+      results: results ?? this.results,
+      filteredResults: filteredResults ?? this.filteredResults,
+    );
+  }
 
   @override
-  List<Object> get props => [results];
+  List<Object> get props => [results, filteredResults];
 }
 
 class HomeError extends HomeState {
