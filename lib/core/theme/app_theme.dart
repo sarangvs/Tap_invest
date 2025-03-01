@@ -6,6 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: AppColors.primary,
+    canvasColor: Color(0xffE5E5E5),
     scaffoldBackgroundColor: Color(0xffF3F4F6),
     textTheme: AppTextStyles.textTheme,
     elevatedButtonTheme: ElevatedButtonThemeData(

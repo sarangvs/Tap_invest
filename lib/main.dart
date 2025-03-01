@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<HomeBloc>()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         home: HomePage(),
       ),

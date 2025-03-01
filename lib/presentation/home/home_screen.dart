@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tap_invest/core/constants.dart';
 import 'package:tap_invest/presentation/home/bloc/home_bloc.dart';
 import 'package:tap_invest/presentation/home/bloc/home_state.dart';
 import 'package:tap_invest/presentation/widgets/text_field_widget.dart';
@@ -44,10 +44,14 @@ class _HomePageState extends State<HomePage> {
                   pinned: false,
                   expandedHeight: 150.0,
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(60), // Adjust height
+                    preferredSize: Size.fromHeight(60),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 15),
+                      padding: const EdgeInsets.only(
+                        bottom: 20.0,
+                        top: 10,
+                        left: 20,
+                        right: 20,
+                      ),
                       child: CustomTextField(
                         controller: searchTextController,
                         hintText: "Search by Issuer Name or ISIN",
@@ -55,18 +59,63 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final result = state.results[index];
-                      return ListTile(
-                        title: Text(result.companyName),
-                        onTap: () {
-                          log("Button clicked");
-                        },
-                      );
-                    },
-                    childCount: state.results.length,
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "search results".toUpperCase(),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final result = state.results[index];
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.only(
+                              bottom: 10), // Adds spacing between items
+                          width: double.infinity,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Theme.of(context).canvasColor,
+                                backgroundImage:
+                                    CachedNetworkImageProvider(result.logo),
+                                child:
+                                    CachedNetworkImage(imageUrl: result.logo),
+                              ),
+                              kwidth10,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(result.isin),
+                                  Text(
+                                    result.companyName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      childCount: state.results.length,
+                    ),
                   ),
                 ),
               ],
