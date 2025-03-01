@@ -53,9 +53,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: CustomTextField(
                         controller: searchTextController,
-                        onChanged: (p0) => context
-                            .read<HomeBloc>()
-                            .add(SearchResults(searchTextController.text)),
+                        onChanged: (value) {
+                          searchTextController.text = value;
+                          context.read<HomeBloc>().add(SearchResults(value));
+                        },
                         hintText: "Search by Issuer Name or ISIN",
                       ),
                     ),
@@ -79,7 +80,11 @@ class _HomePageState extends State<HomePage> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         final result = state.filteredResults[index];
-                        return OrganizationCardWidget(result: result);
+
+                        return OrganizationCardWidget(
+                          result: result,
+                          query: searchTextController.text,
+                        );
                       },
                       childCount: state.filteredResults.length,
                     ),
