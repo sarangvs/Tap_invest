@@ -18,7 +18,8 @@ mixin _$ResultModel {
   String get logo;
   String get isin;
   String get rating;
-  String get company_name;
+  @JsonKey(name: 'company_name')
+  String get companyName;
   List<String> get tags;
 
   /// Create a copy of ResultModel
@@ -39,19 +40,19 @@ mixin _$ResultModel {
             (identical(other.logo, logo) || other.logo == logo) &&
             (identical(other.isin, isin) || other.isin == isin) &&
             (identical(other.rating, rating) || other.rating == rating) &&
-            (identical(other.company_name, company_name) ||
-                other.company_name == company_name) &&
+            (identical(other.companyName, companyName) ||
+                other.companyName == companyName) &&
             const DeepCollectionEquality().equals(other.tags, tags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, logo, isin, rating, company_name,
+  int get hashCode => Object.hash(runtimeType, logo, isin, rating, companyName,
       const DeepCollectionEquality().hash(tags));
 
   @override
   String toString() {
-    return 'ResultModel(logo: $logo, isin: $isin, rating: $rating, company_name: $company_name, tags: $tags)';
+    return 'ResultModel(logo: $logo, isin: $isin, rating: $rating, companyName: $companyName, tags: $tags)';
   }
 }
 
@@ -65,7 +66,7 @@ abstract mixin class $ResultModelCopyWith<$Res> {
       {String logo,
       String isin,
       String rating,
-      String company_name,
+      @JsonKey(name: 'company_name') String companyName,
       List<String> tags});
 }
 
@@ -84,7 +85,7 @@ class _$ResultModelCopyWithImpl<$Res> implements $ResultModelCopyWith<$Res> {
     Object? logo = null,
     Object? isin = null,
     Object? rating = null,
-    Object? company_name = null,
+    Object? companyName = null,
     Object? tags = null,
   }) {
     return _then(_self.copyWith(
@@ -100,9 +101,9 @@ class _$ResultModelCopyWithImpl<$Res> implements $ResultModelCopyWith<$Res> {
           ? _self.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as String,
-      company_name: null == company_name
-          ? _self.company_name
-          : company_name // ignore: cast_nullable_to_non_nullable
+      companyName: null == companyName
+          ? _self.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
               as String,
       tags: null == tags
           ? _self.tags
@@ -119,7 +120,7 @@ class _ResultModel implements ResultModel {
       {required this.logo,
       required this.isin,
       required this.rating,
-      required this.company_name,
+      @JsonKey(name: 'company_name') required this.companyName,
       required final List<String> tags})
       : _tags = tags;
   factory _ResultModel.fromJson(Map<String, dynamic> json) =>
@@ -132,7 +133,8 @@ class _ResultModel implements ResultModel {
   @override
   final String rating;
   @override
-  final String company_name;
+  @JsonKey(name: 'company_name')
+  final String companyName;
   final List<String> _tags;
   @override
   List<String> get tags {
@@ -164,19 +166,19 @@ class _ResultModel implements ResultModel {
             (identical(other.logo, logo) || other.logo == logo) &&
             (identical(other.isin, isin) || other.isin == isin) &&
             (identical(other.rating, rating) || other.rating == rating) &&
-            (identical(other.company_name, company_name) ||
-                other.company_name == company_name) &&
+            (identical(other.companyName, companyName) ||
+                other.companyName == companyName) &&
             const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, logo, isin, rating, company_name,
+  int get hashCode => Object.hash(runtimeType, logo, isin, rating, companyName,
       const DeepCollectionEquality().hash(_tags));
 
   @override
   String toString() {
-    return 'ResultModel(logo: $logo, isin: $isin, rating: $rating, company_name: $company_name, tags: $tags)';
+    return 'ResultModel(logo: $logo, isin: $isin, rating: $rating, companyName: $companyName, tags: $tags)';
   }
 }
 
@@ -192,7 +194,7 @@ abstract mixin class _$ResultModelCopyWith<$Res>
       {String logo,
       String isin,
       String rating,
-      String company_name,
+      @JsonKey(name: 'company_name') String companyName,
       List<String> tags});
 }
 
@@ -211,7 +213,7 @@ class __$ResultModelCopyWithImpl<$Res> implements _$ResultModelCopyWith<$Res> {
     Object? logo = null,
     Object? isin = null,
     Object? rating = null,
-    Object? company_name = null,
+    Object? companyName = null,
     Object? tags = null,
   }) {
     return _then(_ResultModel(
@@ -227,9 +229,9 @@ class __$ResultModelCopyWithImpl<$Res> implements _$ResultModelCopyWith<$Res> {
           ? _self.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as String,
-      company_name: null == company_name
-          ? _self.company_name
-          : company_name // ignore: cast_nullable_to_non_nullable
+      companyName: null == companyName
+          ? _self.companyName
+          : companyName // ignore: cast_nullable_to_non_nullable
               as String,
       tags: null == tags
           ? _self._tags

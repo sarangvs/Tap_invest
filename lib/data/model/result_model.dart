@@ -9,7 +9,7 @@ abstract class ResultModel with _$ResultModel {
     required String logo,
     required String isin,
     required String rating,
-    required String company_name,
+    @JsonKey(name: 'company_name') required String companyName,
     required List<String> tags,
   }) = _ResultModel;
 

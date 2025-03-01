@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final result = state.results[index];
                 return ListTile(
-                  title: Text(result.company_name),
+                  title: Text(result.companyName),
                   onTap: () {
                     log("Button clicked");
                     // Navigator.push(context, MaterialPageRoute(
