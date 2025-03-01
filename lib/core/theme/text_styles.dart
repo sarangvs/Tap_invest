@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class AppTextStyles {
   static const TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
+      fontSize: 26,
+      fontWeight: FontWeight.w600,
+      height: 39 / 26,
+      letterSpacing: -0.03 * 26,
       color: Colors.black,
     ),
     bodyLarge: TextStyle(
