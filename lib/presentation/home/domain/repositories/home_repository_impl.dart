@@ -17,7 +17,7 @@ class HomeRepositoryImpl implements HomeRepository {
       log("getResults called");
       final results = await apiService.fetchResults();
 
-      log("Fetched results: $results"); // Check what is actually returned
+      log("Fetched results: $results");
 
       if (results is! List) {
         log("Error: Expected a List but got ${results.runtimeType}");

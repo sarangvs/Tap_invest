@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tap_invest/presentation/home/bloc/home_bloc.dart';
 import 'package:tap_invest/presentation/home/bloc/home_state.dart';
 import 'package:tap_invest/presentation/home/widgets/organization_card_widget.dart';
+import 'package:tap_invest/presentation/organization_details/organization_details.dart';
 import 'package:tap_invest/presentation/widgets/text_field_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -83,9 +84,19 @@ class _HomePageState extends State<HomePage> {
                       (context, index) {
                         final result = state.filteredResults[index];
 
-                        return OrganizationCardWidget(
-                          result: result,
-                          query: searchTextController.text,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrganizationDetailsPage(),
+                              ),
+                            );
+                          },
+                          child: OrganizationCardWidget(
+                            result: result,
+                            query: searchTextController.text,
+                          ),
                         );
                       },
                       childCount: state.filteredResults.length,
