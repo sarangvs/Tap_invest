@@ -28,7 +28,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   /// Handles searching within locally available results
-  void _onSearchResults(SearchResults event, Emitter<HomeState> emit) {
+  Future<void> _onSearchResults(
+      SearchResults event, Emitter<HomeState> emit) async {
     if (state is HomeLoaded) {
       final currentState = state as HomeLoaded;
       final query = event.query.toLowerCase();
@@ -40,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                   result.companyName.toLowerCase().contains(query) ||
                   result.isin.toLowerCase().contains(query))
               .toList();
-
+      await Future.delayed(const Duration(milliseconds: 100));
       emit(currentState.copyWith(filteredResults: filtered));
     }
   }

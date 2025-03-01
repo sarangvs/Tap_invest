@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
             return Center(child: Text(state.message));
           } else if (state is HomeLoaded) {
             return CustomScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               slivers: [
                 SliverAppBar(
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                         onChanged: (value) {
                           searchTextController.text = value;
                           context.read<HomeBloc>().add(SearchResults(value));
+                          setState(() {});
                         },
                         hintText: "Search by Issuer Name or ISIN",
                       ),

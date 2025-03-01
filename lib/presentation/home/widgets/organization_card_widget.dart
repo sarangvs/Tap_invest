@@ -35,55 +35,69 @@ class OrganizationCardWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _hilightSearchResult(result.isin, query, context),
-              _hilightSearchResult(result.companyName, query, context),
+              SearchHighlight(
+                text: result.isin,
+                query: query,
+              ),
+              SearchHighlight(text: result.companyName, query: query),
             ],
           )
         ],
       ),
     );
   }
+}
 
-  Widget _hilightSearchResult(
-    String text,
-    String query,
-    BuildContext context,
-  ) {
-    if (query.isEmpty) return Text(text); // No query, show normal text
+class SearchHighlight extends StatefulWidget {
+  final String text;
+  final String query;
+
+  const SearchHighlight({super.key, required this.text, required this.query});
+
+  @override
+  _SearchHighlightState createState() => _SearchHighlightState();
+}
+
+class _SearchHighlightState extends State<SearchHighlight> {
+  @override
+  Widget build(BuildContext context) {
+    return _highlightSearchResult(widget.text, widget.query, context);
+  }
+
+  Widget _highlightSearchResult(
+      String text, String query, BuildContext context) {
+    if (query.trim().isEmpty)
+      return Text(text); // Ensure query is not just spaces
 
     final lowerText = text.toLowerCase();
-    final lowerQuery = query.toLowerCase();
-
+    final lowerQuery = query.trim().toLowerCase();
     final matchIndex = lowerText.indexOf(lowerQuery);
-    if (matchIndex == -1) return Text(text); // No match, return normal text
+
+    if (matchIndex == -1) return Text(text); // No match found
+
+    final endIndex = matchIndex + lowerQuery.length;
 
     return RichText(
       text: TextSpan(
         children: [
+          if (matchIndex > 0)
+            TextSpan(
+              text: text.substring(0, matchIndex),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           TextSpan(
-            text: text.substring(0, matchIndex),
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontWeight: FontWeight.normal,
-                ), // Normal text
-          ),
-          TextSpan(
-            text: text.substring(matchIndex, matchIndex + query.length),
+            text: text.substring(matchIndex, endIndex),
             style: TextStyle(
-              // color: Colors.white, // Highlight color
-              backgroundColor: Colors.amber[200], // Highlight background
+              backgroundColor: Colors.amber[200], // Highlight color
               fontWeight: FontWeight.bold,
             ),
           ),
-          TextSpan(
-            text: text.substring(matchIndex + query.length),
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  fontWeight: FontWeight.normal,
-                ), // Normal text
-          ),
+          if (endIndex < text.length)
+            TextSpan(
+              text: text.substring(endIndex),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
         ],
-        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              fontWeight: FontWeight.normal,
-            ), // Global style
       ),
     );
   }
