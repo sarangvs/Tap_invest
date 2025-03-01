@@ -10,6 +10,11 @@ class OrganizationDetailsPage extends StatefulWidget {
 
 class _OrganizationDetailsPageState extends State<OrganizationDetailsPage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold();
   }

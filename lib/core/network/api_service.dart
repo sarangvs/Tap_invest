@@ -17,7 +17,7 @@ class ApiService {
       return data;
     } catch (e, stacktrace) {
       log("fetchResults error: $e \nStacktrace: $stacktrace");
-      return []; // Return empty list to avoid crashes
+      return [];
     }
   }
 
@@ -31,7 +31,7 @@ class ApiService {
       return data;
     } catch (e, stacktrace) {
       log("fetchResults error: $e \nStacktrace: $stacktrace");
-      return []; // Return empty list to avoid crashes
+      return [];
     }
   }
 }
