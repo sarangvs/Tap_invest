@@ -16,9 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<HomeBloc>()
-        .add(FetchResults()); // Dispatch event once when page loads
+    context.read<HomeBloc>().add(FetchResults());
   }
 
   @override
