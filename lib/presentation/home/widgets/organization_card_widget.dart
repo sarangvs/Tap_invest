@@ -87,10 +87,10 @@ class _SearchHighlightState extends State<SearchHighlight> {
             ),
           TextSpan(
             text: text.substring(matchIndex, endIndex),
-            style: TextStyle(
-              backgroundColor: Colors.amber[200], // Highlight color
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(backgroundColor: Colors.amber[50]),
           ),
           if (endIndex < text.length)
             TextSpan(
