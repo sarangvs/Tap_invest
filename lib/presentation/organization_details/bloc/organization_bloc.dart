@@ -21,7 +21,7 @@ class OrganizationBloc extends Bloc<OrganizationEvent, OrganizationState> {
     emit(OrganizationLoading());
     try {
       final results = await repository.getOrganizationDetails();
-      emit(OrganizationLoaded(organisationDetails: results));
+      emit(OrganizationLoaded(organisationDetails: results!));
     } catch (e) {
       emit(OrganizationError("Failed to load data"));
     }

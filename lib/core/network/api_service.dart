@@ -10,10 +10,10 @@ class ApiService {
   Future fetchResults() async {
     try {
       final response = await _dio.get('l122duf9sy4de.m.pipedream.net');
-      log("Response received: ${response.data}");
+      log("fetchResults received: ${response.data}");
 
       final data = response.data["data"];
-      log("jsonDataaa: $data");
+      log("fetchResults: $data");
       return data;
     } catch (e, stacktrace) {
       log("fetchResults error: $e \nStacktrace: $stacktrace");
@@ -24,13 +24,13 @@ class ApiService {
   Future getOrganizationDetails() async {
     try {
       final response = await _dio.get('61q3zd4heiwke.m.pipedream.net');
-      log("Response received: ${response.data}");
+      log("Response getOrganizationDetails: ${response.data}");
 
-      final data = response.data["data"];
-      log("jsonDataaa: $data");
+      final data = response.data;
+      log("getOrganizationDetails: $data");
       return data;
     } catch (e, stacktrace) {
-      log("fetchResults error: $e \nStacktrace: $stacktrace");
+      log("getOrganizationDetails error: $e \nStacktrace: $stacktrace");
       return [];
     }
   }

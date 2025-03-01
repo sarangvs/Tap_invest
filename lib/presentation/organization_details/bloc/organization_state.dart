@@ -8,13 +8,13 @@ abstract class OrganizationState extends Equatable {
 class OrganizationLoading extends OrganizationState {}
 
 class OrganizationLoaded extends OrganizationState {
-  final List<OrganisationModel> organisationDetails;
+  final OrganisationModel organisationDetails;
 
   OrganizationLoaded({required this.organisationDetails});
 
-  OrganizationLoaded copyWith({List<OrganisationModel>? organisationResults}) {
+  OrganizationLoaded copyWith({OrganisationModel? organisationDetails}) {
     return OrganizationLoaded(
-      organisationDetails: organisationResults ?? organisationDetails,
+      organisationDetails: organisationDetails ?? this.organisationDetails,
     );
   }
 

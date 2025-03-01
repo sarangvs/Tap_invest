@@ -12,26 +12,20 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   OrganizationRepositoryImpl(this.apiService);
 
   @override
-  Future<List<OrganisationModel>> getOrganizationDetails() async {
+  Future<OrganisationModel?> getOrganizationDetails() async {
     try {
       log("getResults called");
-      final results = await apiService.fetchResults();
+      final results = await apiService.getOrganizationDetails();
 
-      log("Fetched results: $results");
+      log("Fetched getOrganizationDetails results: $results");
 
-      if (results is! List) {
-        log("Error: Expected a List but got ${results.runtimeType}");
-        return [];
-      }
-
-      final parsedResults =
-          results.map((e) => OrganisationModel.fromJson(e)).toList();
+      final parsedResults = OrganisationModel.fromJson(results);
       log("Parsed results: $parsedResults");
 
       return parsedResults;
     } catch (e, stacktrace) {
       log("getResults error: $e \nStacktrace: $stacktrace");
-      return [];
+      return null;
     }
   }
 }
