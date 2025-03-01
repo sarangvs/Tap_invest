@@ -17,6 +17,12 @@ import 'package:tap_invest/presentation/home/domain/repositories/home_repository
     as _i150;
 import 'package:tap_invest/presentation/home/domain/repositories/home_repository_impl.dart'
     as _i523;
+import 'package:tap_invest/presentation/organization_details/bloc/organization_bloc.dart'
+    as _i16;
+import 'package:tap_invest/presentation/organization_details/domain/organization_repository.dart'
+    as _i998;
+import 'package:tap_invest/presentation/organization_details/domain/organization_repository_impl.dart'
+    as _i17;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -34,6 +40,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i523.HomeRepositoryImpl(gh<_i778.ApiService>()));
     gh.factory<_i998.HomeBloc>(
         () => _i998.HomeBloc(gh<_i150.HomeRepository>()));
+    gh.lazySingleton<_i998.OrganizationRepository>(
+        () => _i17.OrganizationRepositoryImpl(gh<_i778.ApiService>()));
+    gh.factory<_i16.OrganizationBloc>(
+        () => _i16.OrganizationBloc(gh<_i998.OrganizationRepository>()));
     return this;
   }
 }
