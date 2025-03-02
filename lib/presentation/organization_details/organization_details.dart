@@ -64,7 +64,6 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        kheight15,
                         Container(
                           width: 60,
                           height: 60,
@@ -150,6 +149,10 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                           tabAlignment: TabAlignment.start,
                           indicatorColor: AppColors.activeBlue,
                           dividerHeight: 0.2,
+                          labelStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: AppColors.activeBlue),
                           tabs: [
                             Tab(
                               text: "ISIN Analysis",
@@ -164,7 +167,39 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Home Screen"),
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    width: double.infinity,
+                                    height: 250,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black
+                                              .withValues(alpha: 0.1),
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
+                                          offset: Offset(0.5, 0.5),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "company financials"
+                                                  .toUpperCase(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
                               Column(
