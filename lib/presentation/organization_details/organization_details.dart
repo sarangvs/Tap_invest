@@ -12,11 +12,18 @@ class OrganizationDetailsPage extends StatefulWidget {
       _OrganizationDetailsPageState();
 }
 
-class _OrganizationDetailsPageState extends State<OrganizationDetailsPage> {
+class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
+    with TickerProviderStateMixin {
+  late TabController tabController;
   @override
   void initState() {
     super.initState();
     context.read<OrganizationBloc>().add(OrganizationDetails());
+    tabController = TabController(
+      initialIndex: 0,
+      length: 2,
+      vsync: this,
+    );
   }
 
   @override
@@ -42,97 +49,135 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage> {
                     shape: BoxShape.circle,
                     color: AppColors.kwhite,
                     image: DecorationImage(
-                      image: AssetImage(
-                        "assets/images/ArrowLeft.png",
-                      ),
+                      image: AssetImage("assets/images/ArrowLeft.png"),
                       scale: 1.6,
                     ),
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
+              SliverFillRemaining(
+                hasScrollBody: true,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      kheight15,
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: AppColors.kwhite,
-                          image: DecorationImage(
-                            image: NetworkImage(state.organisationDetails.logo),
-                            fit: BoxFit.contain,
-                          ),
-                          border: Border.all(
-                            color:
-                                AppColors.textSecondary.withValues(alpha: 0.2),
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kheight15,
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppColors.kwhite,
+                            image: DecorationImage(
+                              image:
+                                  NetworkImage(state.organisationDetails.logo),
+                              fit: BoxFit.contain,
+                            ),
+                            border: Border.all(
+                              color: AppColors.textSecondary.withOpacity(0.2),
+                            ),
                           ),
                         ),
-                      ),
-                      kheight15,
-                      Text(
-                        state.organisationDetails.companyName,
-                        style:
-                            Theme.of(context).textTheme.displayLarge!.copyWith(
-                                  color: AppColors.kblack,
-                                  fontSize: 16,
-                                  letterSpacing: 0.5,
-                                ),
-                      ),
-                      kheight10,
-                      Text(
-                        state.organisationDetails.description,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.textSubtle,
+                        kheight15,
+                        Text(
+                          state.organisationDetails.companyName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge!
+                              .copyWith(
+                                color: AppColors.kblack,
+                                fontSize: 16,
+                                letterSpacing: 0.5,
+                              ),
+                        ),
+                        kheight10,
+                        Text(
+                          state.organisationDetails.description,
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.textSubtle,
+                                  ),
+                        ),
+                        kheight10,
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              height: 30,
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                color: AppColors.secondary,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                "ISIN: ${state.organisationDetails.isin}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: AppColors.primary),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                      ),
-                      kheight10,
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            height: 30,
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              color: AppColors.secondary,
-                              borderRadius: BorderRadius.circular(3),
+                            kwidth10,
+                            Container(
+                              height: 30,
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                color: AppColors.lightGreen,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                state.organisationDetails.status,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: AppColors.activeGreen),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            child: Text(
-                              "ISIN: ${state.organisationDetails.isin}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(color: AppColors.primary),
-                              textAlign: TextAlign.center,
+                          ],
+                        ),
+                        kheight20,
+                        TabBar(
+                          isScrollable: true,
+                          labelPadding: EdgeInsets.only(right: 20),
+                          tabAlignment: TabAlignment.start,
+                          indicatorColor: AppColors.activeBlue,
+                          dividerHeight: 0.2,
+                          tabs: [
+                            Tab(
+                              text: "ISIN Analysis",
                             ),
+                            Tab(text: "Pros & Cons"),
+                          ],
+                        ),
+                        kheight10,
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Home Screen"),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Search Screen"),
+                                ],
+                              ),
+                            ],
                           ),
-                          kwidth10,
-                          Container(
-                            height: 30,
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            alignment: Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              color: AppColors.lightGreen,
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            child: Text(
-                              "ISIN: ${state.organisationDetails.isin}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(color: AppColors.activeGreen),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
