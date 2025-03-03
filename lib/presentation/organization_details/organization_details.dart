@@ -39,223 +39,316 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
         } else if (state is OrganizationError) {
           return Center(child: Text(state.message));
         } else if (state is OrganizationLoaded) {
-          return CustomScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            slivers: [
-              SliverAppBar(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                floating: true,
-                pinned: false,
-                leading: Container(
-                  margin: EdgeInsets.only(left: 18),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.kwhite,
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/ArrowLeft.png"),
-                      scale: 1.6,
+          return SafeArea(
+            child: CustomScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  floating: true,
+                  pinned: false,
+                  leading: Container(
+                    margin: EdgeInsets.only(left: 18),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.kwhite,
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/ArrowLeft.png"),
+                        scale: 1.6,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: true,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 20.0, right: 20, top: 20),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.kwhite,
-                            image: DecorationImage(
-                              image:
-                                  NetworkImage(state.organisationDetails.logo),
-                              fit: BoxFit.contain,
-                            ),
-                            border: Border.all(
-                              color: AppColors.textSecondary.withOpacity(0.2),
-                            ),
-                          ),
-                        ),
-                        kheight15,
-                        Text(
-                          state.organisationDetails.companyName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayLarge!
-                              .copyWith(
-                                color: AppColors.kblack,
-                                fontSize: 16,
-                                letterSpacing: 0.5,
-                              ),
-                        ),
-                        kheight10,
-                        Text(
-                          state.organisationDetails.description,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    color: AppColors.textSubtle,
-                                  ),
-                        ),
-                        kheight10,
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: 30,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: AppColors.secondary,
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              child: Text(
-                                "ISIN: ${state.organisationDetails.isin}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: AppColors.primary),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            kwidth10,
-                            Container(
-                              height: 30,
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                color: AppColors.lightGreen,
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              child: Text(
-                                state.organisationDetails.status,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: AppColors.activeGreen),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        kheight20,
-                        TabBar(
-                          isScrollable: true,
-                          labelPadding: EdgeInsets.only(right: 20),
-                          tabAlignment: TabAlignment.start,
-                          indicatorColor: AppColors.activeBlue,
-                          dividerHeight: 0.2,
-                          labelStyle: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: AppColors.activeBlue),
-                          tabs: [
-                            Tab(
-                              text: "ISIN Analysis",
-                            ),
-                            Tab(text: "Pros & Cons"),
-                          ],
-                        ),
-                        kheight10,
-                        Expanded(
-                          child: TabBarView(
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 20),
+                        child: DefaultTabController(
+                          length: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _firstTabBarView(context, state),
-                              SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              // Company Logo
+                              Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColors.kwhite,
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        state.organisationDetails.logo),
+                                    fit: BoxFit.contain,
+                                  ),
+                                  border: Border.all(
+                                    color: AppColors.textSecondary
+                                        .withOpacity(0.2),
+                                  ),
+                                ),
+                              ),
+                              kheight15,
+
+                              // Company Name
+                              Text(
+                                state.organisationDetails.companyName,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge!
+                                    .copyWith(
+                                      color: AppColors.kblack,
+                                      fontSize: 16,
+                                      letterSpacing: 0.5,
+                                    ),
+                              ),
+                              kheight10,
+
+                              // Description
+                              Text(
+                                state.organisationDetails.description,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      color: AppColors.textSubtle,
+                                    ),
+                              ),
+                              kheight10,
+
+                              // ISIN & Status
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.secondary,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    child: Text(
+                                      "ISIN: ${state.organisationDetails.isin}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(color: AppColors.primary),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  kwidth10,
+                                  Container(
+                                    height: 30,
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.lightGreen,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    child: Text(
+                                      state.organisationDetails.status,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                              color: AppColors.activeGreen),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              kheight20,
+
+                              // TabBar
+                              TabBar(
+                                isScrollable: true,
+                                labelPadding: EdgeInsets.only(right: 20),
+                                tabAlignment: TabAlignment.start,
+                                indicatorColor: AppColors.activeBlue,
+                                dividerHeight: 0.2,
+                                labelStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(color: AppColors.activeBlue),
+                                tabs: [
+                                  Tab(text: "ISIN Analysis"),
+                                  Tab(text: "Pros & Cons"),
+                                ],
+                              ),
+                              kheight10,
+
+                              // TabBarView
+                              SizedBox(
+                                height: MediaQuery.of(context)
+                                    .size
+                                    .height, // Ensures full scrolling
+                                child: TabBarView(
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.all(16),
-                                      width: double.infinity,
-                                      // height: 200,
-                                      decoration: BoxDecoration(
-                                        color: AppColors.kwhite,
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          width: 0.5,
-                                          color: AppColors.textSecondary
-                                              .withValues(alpha: 0.5),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withValues(alpha: 0.1),
-                                            // blurRadius: 10,
-                                            spreadRadius: 0.5,
-                                            offset: Offset(0.5, 0.5),
-                                          ),
-                                        ],
-                                      ),
+                                    _firstTabBarView(context, state),
+                                    SingleChildScrollView(
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 12),
-                                            child: Text(
-                                              "Pros and Cons",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                    color: AppColors.kblack,
+                                          Container(
+                                            padding: EdgeInsets.all(16),
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: AppColors.kwhite,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              border: Border.all(
+                                                width: 0.5,
+                                                color: AppColors.textSecondary
+                                                    .withOpacity(0.5),
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.1),
+                                                  spreadRadius: 0.5,
+                                                  offset: Offset(0.5, 0.5),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Pros and Cons",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        color: AppColors.kblack,
+                                                      ),
+                                                ),
+                                                kheight16,
+                                                Text(
+                                                  "Pros",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        color: AppColors
+                                                            .activeGreen,
+                                                      ),
+                                                ),
+                                                kheight12,
+                                                ListView.separated(
+                                                  separatorBuilder:
+                                                      (context, index) =>
+                                                          kheight20,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  padding: EdgeInsets.zero,
+                                                  itemCount: state
+                                                      .organisationDetails
+                                                      .prosAndCons
+                                                      .pros
+                                                      .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    final model = state
+                                                        .organisationDetails
+                                                        .prosAndCons
+                                                        .pros[index];
+                                                    return Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 2),
+                                                          width: 18,
+                                                          height: 18,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: AppColors
+                                                                .lightGreen,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.done,
+                                                            size: 10,
+                                                            color: AppColors
+                                                                .activeGreen,
+                                                          ),
+                                                        ),
+                                                        kwidth10,
+                                                        Expanded(
+                                                          child: Text(
+                                                            model,
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                                kheight20,
+                                                Text(
+                                                  "Cons",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                        color: AppColors
+                                                            .darkOrange,
+                                                      ),
+                                                ),
+                                                kheight20,
+                                                ...List.generate(
+                                                  state.organisationDetails
+                                                      .prosAndCons.cons.length,
+                                                  (int index) => Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 10),
+                                                    child: Text(
+                                                      state
+                                                          .organisationDetails
+                                                          .prosAndCons
+                                                          .cons[index],
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .textSubtle),
+                                                    ),
                                                   ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          kheight16,
-                                          Text(
-                                            "Pros",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium!
-                                                .copyWith(
-                                                  color: AppColors.activeGreen,
-                                                ),
-                                          ),
-                                          kheight12,
-                                          ListView.separated(
-                                            separatorBuilder:
-                                                (context, index) => kheight20,
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            padding: EdgeInsets.zero,
-                                            itemCount: state.organisationDetails
-                                                .prosAndCons.pros.length,
-                                            itemBuilder: (context, index) {
-                                              final model = state
-                                                  .organisationDetails
-                                                  .prosAndCons
-                                                  .pros[index];
-                                              return Text(model);
-                                            },
-                                          )
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
         return Center(child: Text("No data"));
