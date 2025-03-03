@@ -66,14 +66,15 @@ class _SearchHighlightState extends State<SearchHighlight> {
 
   Widget _highlightSearchResult(
       String text, String query, BuildContext context) {
-    if (query.trim().isEmpty)
-      return Text(text); // Ensure query is not just spaces
+    if (query.trim().isEmpty) {
+      return Text(text);
+    }
 
     final lowerText = text.toLowerCase();
     final lowerQuery = query.trim().toLowerCase();
     final matchIndex = lowerText.indexOf(lowerQuery);
 
-    if (matchIndex == -1) return Text(text); // No match found
+    if (matchIndex == -1) return Text(text);
 
     final endIndex = matchIndex + lowerQuery.length;
 

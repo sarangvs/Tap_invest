@@ -44,13 +44,33 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
               length: 2,
               child: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    backgroundColor: AppColors.background,
+                    floating: true,
+                    foregroundColor: AppColors.background,
+                    surfaceTintColor: AppColors.background,
+                    pinned: false,
+                    leading: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        margin: EdgeInsets.only(left: 18),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.kwhite,
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/ArrowLeft.png"),
+                            scale: 1.6,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Company Logo
                           Container(
                             width: 60,
                             height: 60,
@@ -63,13 +83,12 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                 fit: BoxFit.contain,
                               ),
                               border: Border.all(
-                                color: AppColors.textSecondary.withOpacity(0.2),
+                                color: AppColors.textSecondary
+                                    .withValues(alpha: 0.2),
                               ),
                             ),
                           ),
                           kheight15,
-
-                          // Company Name
                           Text(
                             state.organisationDetails.companyName,
                             style: Theme.of(context)
@@ -82,8 +101,6 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                 ),
                           ),
                           kheight10,
-
-                          // Description
                           Text(
                             state.organisationDetails.description,
                             style:
@@ -93,8 +110,6 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                     ),
                           ),
                           kheight10,
-
-                          // ISIN & Status
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -145,9 +160,11 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                   children: [
                     TabBar(
                       isScrollable: true,
-                      labelPadding: EdgeInsets.only(right: 20),
+                      labelPadding: EdgeInsets.only(right: 20, left: 20),
                       tabAlignment: TabAlignment.start,
                       indicatorColor: AppColors.activeBlue,
+                      splashFactory: NoSplash.splashFactory,
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
                       dividerHeight: 0.2,
                       labelStyle: Theme.of(context)
                           .textTheme
@@ -160,8 +177,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                     ),
                     Expanded(
                       child: TabBarView(
-                        physics:
-                            NeverScrollableScrollPhysics(), // Prevents swipe conflicts
+                        physics: NeverScrollableScrollPhysics(),
                         children: [
                           _buildScrollableTabContent(
                               _firstTabBarView(context, state)),
@@ -304,7 +320,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: AppColors.textSubtle.withValues(alpha: 0.1),
                 blurRadius: 10,
                 spreadRadius: 1,
                 offset: Offset(0.5, 0.5),
@@ -363,7 +379,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
               ),
               kheight30,
               SizedBox(
-                height: 250, // Ensures proper layout inside SliverList
+                height: 250,
                 child: TabBarView(
                   controller: tabController,
                   children: [
@@ -382,7 +398,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: AppColors.textSecondary.withOpacity(0.2),
+              color: AppColors.textSecondary.withValues(alpha: 0.2),
             ),
           ),
           child: Column(
@@ -448,7 +464,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                     _issuerDetailsWidget(
                       context,
                       "Name of the Lead Manager",
-                      "",
+                      state.organisationDetails.issuerDetails.leadManager,
                     ),
                   ],
                 ),
@@ -540,7 +556,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                       "D"
                     ];
                     return Text(
-                      months[value.toInt() - 1], // map x values to months
+                      months[value.toInt() - 1],
                       style: TextStyle(color: Colors.black, fontSize: 12),
                     );
                   },

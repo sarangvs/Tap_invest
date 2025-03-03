@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tap_invest/core/theme/color_schemes.dart';
 import 'package:tap_invest/presentation/home/bloc/home_bloc.dart';
 import 'package:tap_invest/presentation/home/bloc/home_state.dart';
 import 'package:tap_invest/presentation/home/widgets/organization_card_widget.dart';
@@ -39,10 +40,12 @@ class _HomePageState extends State<HomePage> {
                   titleSpacing: 20,
                   title: Text(
                     "Home",
-                    style: Theme.of(context).textTheme.headlineLarge,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                   floating: true,
                   pinned: false,
+                  foregroundColor: AppColors.background,
+                  surfaceTintColor: AppColors.background,
                   expandedHeight: 150.0,
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(60),
