@@ -258,7 +258,18 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                           ],
                                         ),
                                         kheight30,
-                                        _ebitdaGraphWidget(state, context),
+                                        SizedBox(
+                                          height: 170,
+                                          child: TabBarView(
+                                            controller: tabController,
+                                            children: [
+                                              _ebitdaGraphWidget(
+                                                  state, context),
+                                              _revenueGraphWidget(
+                                                  state, context)
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -284,6 +295,101 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
         return Center(child: Text("No data"));
       }),
     );
+  }
+
+  SizedBox _revenueGraphWidget(OrganizationLoaded state, BuildContext context) {
+    return SizedBox(
+        height: 170,
+        child: BarChart(
+          BarChartData(
+            barGroups: List.generate(
+              state.organisationDetails.financials.ebitda.length,
+              (index) {
+                final data = state.organisationDetails.financials.ebitda[index];
+
+                return BarChartGroupData(
+                  x: index + 1,
+                  barRods: [
+                    BarChartRodData(
+                      toY: (data.value / 100000).clamp(0, 1),
+                      color: AppColors.activeBlue,
+                      width: 15,
+                      borderRadius: BorderRadius.circular(3),
+                      backDrawRodData: BackgroundBarChartRodData(
+                        show: true,
+                        toY: 1.8,
+                        color: AppColors.activeBlue,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            titlesData: FlTitlesData(
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (double value, TitleMeta meta) {
+                    List<String> months = [
+                      "J",
+                      "F",
+                      "M",
+                      "A",
+                      "M",
+                      "J",
+                      "J",
+                      "A",
+                      "S",
+                      "O",
+                      "N",
+                      "D"
+                    ];
+                    return Text(
+                      months[value.toInt() - 1], // Map X values to months
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    );
+                  },
+                  reservedSize: 30,
+                ),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) => value == 6
+                      ? Text(
+                          "2024 2025",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                      : SizedBox(),
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 1,
+                  getTitlesWidget: (double value, TitleMeta meta) {
+                    return Text(
+                      "₹${value.toInt()}L",
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    );
+                  },
+                  reservedSize: 40,
+                ),
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            gridData: FlGridData(
+              show: true,
+            ),
+            minY: 0,
+            maxY: 3,
+          ),
+        ));
   }
 
   SizedBox _ebitdaGraphWidget(OrganizationLoaded state, BuildContext context) {
@@ -379,25 +485,5 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
             maxY: 3,
           ),
         ));
-  }
-
-  List<BarChartGroupData> _buildBarGroups() {
-    return List.generate(12, (index) {
-      return BarChartGroupData(
-        x: index,
-        barRods: [
-          BarChartRodData(
-            toY: 1.0, // Dark black bar (₹1L)
-            color: Colors.black,
-            width: 16,
-          ),
-          BarChartRodData(
-            toY: 3.0, // Light blue bar (₹2L)
-            color: Colors.blue.shade100,
-            width: 16,
-          ),
-        ],
-      );
-    });
   }
 }
