@@ -87,18 +87,32 @@ class _HomePageState extends State<HomePage> {
                       (context, index) {
                         final result = state.filteredResults[index];
 
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OrganizationDetailsPage(),
+                        return TweenAnimationBuilder<double>(
+                          tween: Tween(begin: 0.0, end: 1.0),
+                          duration: Duration(milliseconds: 500 + (index * 100)),
+                          builder: (context, value, child) {
+                            return Opacity(
+                              opacity: value,
+                              child: Transform.translate(
+                                offset: Offset(0, (1 - value) * 20),
+                                child: child,
                               ),
                             );
                           },
-                          child: OrganizationCardWidget(
-                            result: result,
-                            query: searchTextController.text,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OrganizationDetailsPage(),
+                                ),
+                              );
+                            },
+                            child: OrganizationCardWidget(
+                              result: result,
+                              query: searchTextController.text,
+                            ),
                           ),
                         );
                       },
