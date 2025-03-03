@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tap_invest/core/constants.dart';
 import 'package:tap_invest/core/theme/color_schemes.dart';
 import 'package:tap_invest/presentation/organization_details/bloc/organization_bloc.dart';
+import 'package:tap_invest/presentation/organization_details/widgets/custom_tab_indicator.dart';
 
 class OrganizationDetailsPage extends StatefulWidget {
   const OrganizationDetailsPage({super.key});
@@ -19,12 +20,13 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
   @override
   void initState() {
     super.initState();
-    context.read<OrganizationBloc>().add(OrganizationDetails());
+
     tabController = TabController(
       initialIndex: 0,
       length: 2,
       vsync: this,
     );
+    context.read<OrganizationBloc>().add(OrganizationDetails());
   }
 
   @override
@@ -191,6 +193,8 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               "company financials"
@@ -199,116 +203,62 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                                   .textTheme
                                                   .bodySmall!,
                                             ),
+                                            Container(
+                                              // width: 120,
+                                              padding: EdgeInsets.all(3),
+                                              height: 25,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(99),
+                                                color: AppColors.inActiveColor,
+                                              ),
+                                              child: TabBar(
+                                                controller: tabController,
+                                                padding: EdgeInsets.zero,
+                                                indicatorPadding:
+                                                    EdgeInsets.zero,
+                                                dividerHeight: 0,
+                                                indicatorSize:
+                                                    TabBarIndicatorSize.tab,
+                                                indicator: CustomTabIndicator(
+                                                    tabController:
+                                                        tabController),
+                                                tabAlignment:
+                                                    TabAlignment.center,
+                                                tabs: [
+                                                  Text(
+                                                    "EBITDA",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 10,
+                                                          color:
+                                                              AppColors.kblack,
+                                                        ),
+                                                  ),
+                                                  Text(
+                                                    "Revenue",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 10,
+                                                          color:
+                                                              AppColors.kblack,
+                                                        ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         ),
                                         kheight30,
-                                        SizedBox(
-                                            height: 170,
-                                            child: BarChart(
-                                              BarChartData(
-                                                barGroups: List.generate(
-                                                  state.organisationDetails
-                                                      .financials.ebitda.length,
-                                                  (index) {
-                                                    final data = state
-                                                        .organisationDetails
-                                                        .financials
-                                                        .ebitda[index];
-
-                                                    return BarChartGroupData(
-                                                      x: index + 1,
-                                                      barRods: [
-                                                        BarChartRodData(
-                                                          toY: (data.value /
-                                                                  100000)
-                                                              .clamp(0, 1),
-                                                          color:
-                                                              AppColors.kblack,
-                                                          width: 15,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(3),
-                                                          backDrawRodData:
-                                                              BackgroundBarChartRodData(
-                                                            show: true,
-                                                            toY: 1.8,
-                                                            color: AppColors
-                                                                .secondary,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                ),
-                                                titlesData: FlTitlesData(
-                                                  bottomTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                      showTitles: true,
-                                                      getTitlesWidget:
-                                                          (double value,
-                                                              TitleMeta meta) {
-                                                        List<String> months = [
-                                                          "J",
-                                                          "F",
-                                                          "M",
-                                                          "A",
-                                                          "M",
-                                                          "J",
-                                                          "J",
-                                                          "A",
-                                                          "S",
-                                                          "O",
-                                                          "N",
-                                                          "D"
-                                                        ];
-                                                        return Text(
-                                                          months[value.toInt() -
-                                                              1], // Map X values to months
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
-                                                        );
-                                                      },
-                                                      reservedSize: 30,
-                                                    ),
-                                                  ),
-                                                  topTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                      showTitles: false,
-                                                    ),
-                                                  ),
-                                                  rightTitles: AxisTitles(
-                                                      sideTitles: SideTitles(
-                                                          showTitles: false)),
-                                                  leftTitles: AxisTitles(
-                                                    sideTitles: SideTitles(
-                                                      showTitles: true,
-                                                      interval: 1,
-                                                      getTitlesWidget:
-                                                          (double value,
-                                                              TitleMeta meta) {
-                                                        return Text(
-                                                          "₹${value.toInt()}L",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 12),
-                                                        );
-                                                      },
-                                                      reservedSize: 40,
-                                                    ),
-                                                  ),
-                                                ),
-                                                borderData:
-                                                    FlBorderData(show: false),
-                                                gridData: FlGridData(
-                                                  show: true,
-                                                ),
-                                                minY: 0,
-                                                maxY: 3,
-                                              ),
-                                            )),
+                                        _ebitdaGraphWidget(state, context),
                                       ],
                                     ),
                                   )
@@ -334,6 +284,101 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
         return Center(child: Text("No data"));
       }),
     );
+  }
+
+  SizedBox _ebitdaGraphWidget(OrganizationLoaded state, BuildContext context) {
+    return SizedBox(
+        height: 170,
+        child: BarChart(
+          BarChartData(
+            barGroups: List.generate(
+              state.organisationDetails.financials.ebitda.length,
+              (index) {
+                final data = state.organisationDetails.financials.ebitda[index];
+
+                return BarChartGroupData(
+                  x: index + 1,
+                  barRods: [
+                    BarChartRodData(
+                      toY: (data.value / 100000).clamp(0, 1),
+                      color: AppColors.kblack,
+                      width: 15,
+                      borderRadius: BorderRadius.circular(3),
+                      backDrawRodData: BackgroundBarChartRodData(
+                        show: true,
+                        toY: 1.8,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            titlesData: FlTitlesData(
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (double value, TitleMeta meta) {
+                    List<String> months = [
+                      "J",
+                      "F",
+                      "M",
+                      "A",
+                      "M",
+                      "J",
+                      "J",
+                      "A",
+                      "S",
+                      "O",
+                      "N",
+                      "D"
+                    ];
+                    return Text(
+                      months[value.toInt() - 1], // Map X values to months
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    );
+                  },
+                  reservedSize: 30,
+                ),
+              ),
+              topTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) => value == 6
+                      ? Text(
+                          "2024 2025",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )
+                      : SizedBox(),
+                ),
+              ),
+              rightTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                ),
+              ),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  interval: 1,
+                  getTitlesWidget: (double value, TitleMeta meta) {
+                    return Text(
+                      "₹${value.toInt()}L",
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    );
+                  },
+                  reservedSize: 40,
+                ),
+              ),
+            ),
+            borderData: FlBorderData(show: false),
+            gridData: FlGridData(
+              show: true,
+            ),
+            minY: 0,
+            maxY: 3,
+          ),
+        ));
   }
 
   List<BarChartGroupData> _buildBarGroups() {
