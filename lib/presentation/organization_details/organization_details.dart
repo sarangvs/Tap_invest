@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tap_invest/core/constants.dart';
@@ -168,7 +169,8 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.all(16),
+                                    padding: EdgeInsets.only(
+                                        left: 16, right: 16, top: 16),
                                     width: double.infinity,
                                     height: 250,
                                     decoration: BoxDecoration(
@@ -185,6 +187,8 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                       ],
                                     ),
                                     child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
@@ -197,6 +201,114 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                                             ),
                                           ],
                                         ),
+                                        kheight30,
+                                        SizedBox(
+                                            height: 170,
+                                            child: BarChart(
+                                              BarChartData(
+                                                barGroups: List.generate(
+                                                  state.organisationDetails
+                                                      .financials.ebitda.length,
+                                                  (index) {
+                                                    final data = state
+                                                        .organisationDetails
+                                                        .financials
+                                                        .ebitda[index];
+
+                                                    return BarChartGroupData(
+                                                      x: index + 1,
+                                                      barRods: [
+                                                        BarChartRodData(
+                                                          toY: (data.value /
+                                                                  100000)
+                                                              .clamp(0, 1),
+                                                          color:
+                                                              AppColors.kblack,
+                                                          width: 15,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(3),
+                                                          backDrawRodData:
+                                                              BackgroundBarChartRodData(
+                                                            show: true,
+                                                            toY: 1.8,
+                                                            color: AppColors
+                                                                .secondary,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ),
+                                                titlesData: FlTitlesData(
+                                                  bottomTitles: AxisTitles(
+                                                    sideTitles: SideTitles(
+                                                      showTitles: true,
+                                                      getTitlesWidget:
+                                                          (double value,
+                                                              TitleMeta meta) {
+                                                        List<String> months = [
+                                                          "J",
+                                                          "F",
+                                                          "M",
+                                                          "A",
+                                                          "M",
+                                                          "J",
+                                                          "J",
+                                                          "A",
+                                                          "S",
+                                                          "O",
+                                                          "N",
+                                                          "D"
+                                                        ];
+                                                        return Text(
+                                                          months[value.toInt() -
+                                                              1], // Map X values to months
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        );
+                                                      },
+                                                      reservedSize: 30,
+                                                    ),
+                                                  ),
+                                                  topTitles: AxisTitles(
+                                                    sideTitles: SideTitles(
+                                                      showTitles: false,
+                                                    ),
+                                                  ),
+                                                  rightTitles: AxisTitles(
+                                                      sideTitles: SideTitles(
+                                                          showTitles: false)),
+                                                  leftTitles: AxisTitles(
+                                                    sideTitles: SideTitles(
+                                                      showTitles: true,
+                                                      interval: 1,
+                                                      getTitlesWidget:
+                                                          (double value,
+                                                              TitleMeta meta) {
+                                                        return Text(
+                                                          "₹${value.toInt()}L",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12),
+                                                        );
+                                                      },
+                                                      reservedSize: 40,
+                                                    ),
+                                                  ),
+                                                ),
+                                                borderData:
+                                                    FlBorderData(show: false),
+                                                gridData: FlGridData(
+                                                  show: true,
+                                                ),
+                                                minY: 0,
+                                                maxY: 3,
+                                              ),
+                                            )),
                                       ],
                                     ),
                                   )
@@ -222,5 +334,25 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
         return Center(child: Text("No data"));
       }),
     );
+  }
+
+  List<BarChartGroupData> _buildBarGroups() {
+    return List.generate(12, (index) {
+      return BarChartGroupData(
+        x: index,
+        barRods: [
+          BarChartRodData(
+            toY: 1.0, // Dark black bar (₹1L)
+            color: Colors.black,
+            width: 16,
+          ),
+          BarChartRodData(
+            toY: 3.0, // Light blue bar (₹2L)
+            color: Colors.blue.shade100,
+            width: 16,
+          ),
+        ],
+      );
+    });
   }
 }
