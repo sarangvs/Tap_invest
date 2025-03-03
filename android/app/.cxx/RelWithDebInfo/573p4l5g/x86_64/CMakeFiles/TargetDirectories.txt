@@ -1,0 +1,2 @@
+/Users/sarangvs/Documents/GitHub/tap_invest/android/app/.cxx/RelWithDebInfo/573p4l5g/x86_64/CMakeFiles/edit_cache.dir
+/Users/sarangvs/Documents/GitHub/tap_invest/android/app/.cxx/RelWithDebInfo/573p4l5g/x86_64/CMakeFiles/rebuild_cache.dir

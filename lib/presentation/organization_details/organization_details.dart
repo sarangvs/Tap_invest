@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tap_invest/core/constants.dart';
 import 'package:tap_invest/core/theme/color_schemes.dart';
@@ -170,6 +171,9 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                           .textTheme
                           .bodyMedium!
                           .copyWith(color: AppColors.activeBlue),
+                      onTap: (value) {
+                        HapticFeedback.mediumImpact();
+                      },
                       tabs: [
                         Tab(text: "ISIN Analysis"),
                         Tab(text: "Pros & Cons"),
@@ -353,6 +357,9 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                       indicator:
                           CustomTabIndicator(tabController: tabController),
                       tabAlignment: TabAlignment.center,
+                      onTap: (value) {
+                        HapticFeedback.mediumImpact();
+                      },
                       tabs: [
                         Text(
                           "EBITDA",

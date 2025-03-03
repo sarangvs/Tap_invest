@@ -1,0 +1,1 @@
+/Users/sarangvs/Documents/GitHub/tap_invest/build/app/intermediates/cxx/RelWithDebInfo/573p4l5g/obj/arm64-v8a
