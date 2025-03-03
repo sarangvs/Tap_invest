@@ -183,160 +183,12 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
 
                               // TabBarView
                               SizedBox(
-                                height: MediaQuery.of(context)
-                                    .size
-                                    .height, // Ensures full scrolling
+                                height: MediaQuery.of(context).size.height,
                                 child: TabBarView(
+                                  physics: NeverScrollableScrollPhysics(),
                                   children: [
                                     _firstTabBarView(context, state),
-                                    SingleChildScrollView(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.all(16),
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.kwhite,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              border: Border.all(
-                                                width: 0.5,
-                                                color: AppColors.textSecondary
-                                                    .withOpacity(0.5),
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
-                                                  spreadRadius: 0.5,
-                                                  offset: Offset(0.5, 0.5),
-                                                ),
-                                              ],
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Pros and Cons",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        color: AppColors.kblack,
-                                                      ),
-                                                ),
-                                                kheight16,
-                                                Text(
-                                                  "Pros",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .activeGreen,
-                                                      ),
-                                                ),
-                                                kheight12,
-                                                ListView.separated(
-                                                  separatorBuilder:
-                                                      (context, index) =>
-                                                          kheight20,
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  padding: EdgeInsets.zero,
-                                                  itemCount: state
-                                                      .organisationDetails
-                                                      .prosAndCons
-                                                      .pros
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    final model = state
-                                                        .organisationDetails
-                                                        .prosAndCons
-                                                        .pros[index];
-                                                    return Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 2),
-                                                          width: 18,
-                                                          height: 18,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: AppColors
-                                                                .lightGreen,
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: Icon(
-                                                            Icons.done,
-                                                            size: 10,
-                                                            color: AppColors
-                                                                .activeGreen,
-                                                          ),
-                                                        ),
-                                                        kwidth10,
-                                                        Expanded(
-                                                          child: Text(
-                                                            model,
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyMedium,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                ),
-                                                kheight20,
-                                                Text(
-                                                  "Cons",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyMedium!
-                                                      .copyWith(
-                                                        color: AppColors
-                                                            .darkOrange,
-                                                      ),
-                                                ),
-                                                kheight20,
-                                                ...List.generate(
-                                                  state.organisationDetails
-                                                      .prosAndCons.cons.length,
-                                                  (int index) => Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        vertical: 10),
-                                                    child: Text(
-                                                      state
-                                                          .organisationDetails
-                                                          .prosAndCons
-                                                          .cons[index],
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium!
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .textSubtle),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    _secondTabBarView(context, state),
                                   ],
                                 ),
                               ),
@@ -356,20 +208,123 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
     );
   }
 
-  Column _firstTabBarView(BuildContext context, OrganizationLoaded state) {
+  Column _secondTabBarView(BuildContext context, OrganizationLoaded state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.all(16),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.kwhite,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              width: 0.5,
+              color: AppColors.textSecondary.withAlpha(1),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(1),
+                spreadRadius: 0.5,
+                offset: Offset(0.5, 0.5),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Pros and Cons",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: AppColors.kblack,
+                    ),
+              ),
+              kheight16,
+              Text(
+                "Pros",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: AppColors.activeGreen,
+                    ),
+              ),
+              kheight12,
+              ListView.separated(
+                separatorBuilder: (context, index) => kheight20,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: state.organisationDetails.prosAndCons.pros.length,
+                itemBuilder: (context, index) {
+                  final model =
+                      state.organisationDetails.prosAndCons.pros[index];
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 2),
+                        width: 18,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          color: AppColors.lightGreen,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.done,
+                          size: 10,
+                          color: AppColors.activeGreen,
+                        ),
+                      ),
+                      kwidth10,
+                      Expanded(
+                        child: Text(
+                          model,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+              kheight20,
+              Text(
+                "Cons",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: AppColors.darkOrange,
+                    ),
+              ),
+              kheight20,
+              ...List.generate(
+                state.organisationDetails.prosAndCons.cons.length,
+                (int index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    state.organisationDetails.prosAndCons.cons[index],
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: AppColors.textSubtle),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _firstTabBarView(BuildContext context, OrganizationLoaded state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: EdgeInsets.only(left: 16, right: 16, top: 16),
           width: double.infinity,
-          height: 250,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 10,
                 spreadRadius: 1,
                 offset: Offset(0.5, 0.5),
@@ -377,7 +332,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min, // Prevent height issues
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -387,7 +342,6 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                     style: Theme.of(context).textTheme.bodySmall!,
                   ),
                   Container(
-                    // width: 120,
                     padding: EdgeInsets.all(3),
                     height: 25,
                     decoration: BoxDecoration(
@@ -424,27 +378,141 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                         )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
               kheight30,
-              Expanded(
+              SizedBox(
+                height: 250, // Ensures proper layout inside SliverList
                 child: TabBarView(
                   controller: tabController,
                   children: [
                     _ebitdaGraphWidget(state, context),
-                    _revenueGraphWidget(state, context)
+                    _revenueGraphWidget(state, context),
                   ],
                 ),
               ),
             ],
           ),
-        )
+        ),
+        kheight20,
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: AppColors.textSecondary.withOpacity(0.2),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kheight16,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/AddressBook.png",
+                      height: 18,
+                    ),
+                    kwidth4,
+                    Text(
+                      "Issuer Details",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontSize: 15),
+                    ),
+                  ],
+                ),
+              ),
+              kheight10,
+              Divider(color: AppColors.inActiveColor),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _issuerDetailsWidget(
+                      context,
+                      "Issuer Name",
+                      state.organisationDetails.issuerDetails.issuerName,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Type of Issuer",
+                      state.organisationDetails.issuerDetails.typeOfIssuer,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Sector",
+                      state.organisationDetails.issuerDetails.sector,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Industry",
+                      state.organisationDetails.issuerDetails.industry,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Issuer nature",
+                      state.organisationDetails.issuerDetails.issuerNature,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Corporate Identity Number (CIN)",
+                      state.organisationDetails.issuerDetails.cin,
+                    ),
+                    _issuerDetailsWidget(
+                      context,
+                      "Name of the Lead Manager",
+                      "",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  SizedBox _revenueGraphWidget(OrganizationLoaded state, BuildContext context) {
+  Column _issuerDetailsWidget(
+    BuildContext context,
+    String title,
+    String subtitle,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        kheight10,
+        Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.activeBlue),
+        ),
+        kheight2,
+        Text(
+          subtitle,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: AppColors.kblack,
+                fontWeight: FontWeight.w500,
+              ),
+        ),
+        kheight20,
+      ],
+    );
+  }
+
+  SizedBox _revenueGraphWidget(
+    OrganizationLoaded state,
+    BuildContext context,
+  ) {
     return SizedBox(
         height: 170,
         child: BarChart(
@@ -492,7 +560,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                       "D"
                     ];
                     return Text(
-                      months[value.toInt() - 1], // Map X values to months
+                      months[value.toInt() - 1], // map x values to months
                       style: TextStyle(color: Colors.black, fontSize: 12),
                     );
                   },
@@ -541,96 +609,97 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
 
   SizedBox _ebitdaGraphWidget(OrganizationLoaded state, BuildContext context) {
     return SizedBox(
-        height: 170,
-        child: BarChart(
-          BarChartData(
-            barGroups: List.generate(
-              state.organisationDetails.financials.ebitda.length,
-              (index) {
-                final data = state.organisationDetails.financials.ebitda[index];
+      height: 170,
+      child: BarChart(
+        BarChartData(
+          barGroups: List.generate(
+            state.organisationDetails.financials.ebitda.length,
+            (index) {
+              final data = state.organisationDetails.financials.ebitda[index];
 
-                return BarChartGroupData(
-                  x: index + 1,
-                  barRods: [
-                    BarChartRodData(
-                      toY: (data.value / 100000).clamp(0, 1),
-                      color: AppColors.kblack,
-                      width: 15,
-                      borderRadius: BorderRadius.circular(3),
-                      backDrawRodData: BackgroundBarChartRodData(
-                        show: true,
-                        toY: 1.8,
-                        color: AppColors.secondary,
-                      ),
+              return BarChartGroupData(
+                x: index + 1,
+                barRods: [
+                  BarChartRodData(
+                    toY: (data.value / 100000).clamp(0, 1),
+                    color: AppColors.kblack,
+                    width: 15,
+                    borderRadius: BorderRadius.circular(3),
+                    backDrawRodData: BackgroundBarChartRodData(
+                      show: true,
+                      toY: 1.8,
+                      color: AppColors.secondary,
                     ),
-                  ],
-                );
-              },
-            ),
-            titlesData: FlTitlesData(
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: (double value, TitleMeta meta) {
-                    List<String> months = [
-                      "J",
-                      "F",
-                      "M",
-                      "A",
-                      "M",
-                      "J",
-                      "J",
-                      "A",
-                      "S",
-                      "O",
-                      "N",
-                      "D"
-                    ];
-                    return Text(
-                      months[value.toInt() - 1], // Map X values to months
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    );
-                  },
-                  reservedSize: 30,
-                ),
-              ),
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: (value, meta) => value == 6
-                      ? Text(
-                          "2024 2025",
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                      : SizedBox(),
-                ),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
-                ),
-              ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  interval: 1,
-                  getTitlesWidget: (double value, TitleMeta meta) {
-                    return Text(
-                      "₹${value.toInt()}L",
-                      style: TextStyle(color: Colors.black, fontSize: 12),
-                    );
-                  },
-                  reservedSize: 40,
-                ),
-              ),
-            ),
-            borderData: FlBorderData(show: false),
-            gridData: FlGridData(
-              show: true,
-            ),
-            minY: 0,
-            maxY: 3,
+                  ),
+                ],
+              );
+            },
           ),
-        ));
+          titlesData: FlTitlesData(
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (double value, TitleMeta meta) {
+                  List<String> months = [
+                    "J",
+                    "F",
+                    "M",
+                    "A",
+                    "M",
+                    "J",
+                    "J",
+                    "A",
+                    "S",
+                    "O",
+                    "N",
+                    "D"
+                  ];
+                  return Text(
+                    months[value.toInt() - 1],
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  );
+                },
+                reservedSize: 30,
+              ),
+            ),
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: (value, meta) => value == 6
+                    ? Text(
+                        "2024 2025",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    : SizedBox(),
+              ),
+            ),
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                interval: 1,
+                getTitlesWidget: (double value, TitleMeta meta) {
+                  return Text(
+                    "₹${value.toInt()}L",
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  );
+                },
+                reservedSize: 40,
+              ),
+            ),
+          ),
+          borderData: FlBorderData(show: false),
+          gridData: FlGridData(
+            show: true,
+          ),
+          minY: 0,
+          maxY: 3,
+        ),
+      ),
+    );
   }
 }
