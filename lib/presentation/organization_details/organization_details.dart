@@ -40,171 +40,151 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
           return Center(child: Text(state.message));
         } else if (state is OrganizationLoaded) {
           return SafeArea(
-            child: CustomScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  floating: true,
-                  pinned: false,
-                  leading: Container(
-                    margin: EdgeInsets.only(left: 18),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.kwhite,
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/ArrowLeft.png"),
-                        scale: 1.6,
-                      ),
-                    ),
-                  ),
-                ),
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 20),
-                        child: DefaultTabController(
-                          length: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Company Logo
-                              Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: AppColors.kwhite,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        state.organisationDetails.logo),
-                                    fit: BoxFit.contain,
-                                  ),
-                                  border: Border.all(
-                                    color: AppColors.textSecondary
-                                        .withOpacity(0.2),
-                                  ),
+            child: DefaultTabController(
+              length: 2,
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Company Logo
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.kwhite,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    state.organisationDetails.logo),
+                                fit: BoxFit.contain,
+                              ),
+                              border: Border.all(
+                                color: AppColors.textSecondary.withOpacity(0.2),
+                              ),
+                            ),
+                          ),
+                          kheight15,
+
+                          // Company Name
+                          Text(
+                            state.organisationDetails.companyName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayLarge!
+                                .copyWith(
+                                  color: AppColors.kblack,
+                                  fontSize: 16,
+                                  letterSpacing: 0.5,
                                 ),
-                              ),
-                              kheight15,
+                          ),
+                          kheight10,
 
-                              // Company Name
-                              Text(
-                                state.organisationDetails.companyName,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge!
-                                    .copyWith(
-                                      color: AppColors.kblack,
-                                      fontSize: 16,
-                                      letterSpacing: 0.5,
-                                    ),
-                              ),
-                              kheight10,
-
-                              // Description
-                              Text(
-                                state.organisationDetails.description,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
+                          // Description
+                          Text(
+                            state.organisationDetails.description,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
                                       fontWeight: FontWeight.normal,
                                       color: AppColors.textSubtle,
                                     ),
-                              ),
-                              kheight10,
+                          ),
+                          kheight10,
 
-                              // ISIN & Status
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    alignment: Alignment.centerLeft,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.secondary,
-                                      borderRadius: BorderRadius.circular(3),
-                                    ),
-                                    child: Text(
-                                      "ISIN: ${state.organisationDetails.isin}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(color: AppColors.primary),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  kwidth10,
-                                  Container(
-                                    height: 30,
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                    alignment: Alignment.centerLeft,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.lightGreen,
-                                      borderRadius: BorderRadius.circular(3),
-                                    ),
-                                    child: Text(
-                                      state.organisationDetails.status,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                              color: AppColors.activeGreen),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ],
+                          // ISIN & Status
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                height: 30,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  color: AppColors.secondary,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                child: Text(
+                                  "ISIN: ${state.organisationDetails.isin}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: AppColors.primary),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
-                              kheight20,
-
-                              // TabBar
-                              TabBar(
-                                isScrollable: true,
-                                labelPadding: EdgeInsets.only(right: 20),
-                                tabAlignment: TabAlignment.start,
-                                indicatorColor: AppColors.activeBlue,
-                                dividerHeight: 0.2,
-                                labelStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: AppColors.activeBlue),
-                                tabs: [
-                                  Tab(text: "ISIN Analysis"),
-                                  Tab(text: "Pros & Cons"),
-                                ],
-                              ),
-                              kheight10,
-
-                              // TabBarView
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height,
-                                child: TabBarView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: [
-                                    _firstTabBarView(context, state),
-                                    _secondTabBarView(context, state),
-                                  ],
+                              kwidth10,
+                              Container(
+                                height: 30,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                alignment: Alignment.centerLeft,
+                                decoration: BoxDecoration(
+                                  color: AppColors.lightGreen,
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                child: Text(
+                                  state.organisationDetails.status,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: AppColors.activeGreen),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                          kheight20,
+                        ],
                       ),
-                    ],
+                    ),
                   ),
+                ],
+                body: Column(
+                  children: [
+                    TabBar(
+                      isScrollable: true,
+                      labelPadding: EdgeInsets.only(right: 20),
+                      tabAlignment: TabAlignment.start,
+                      indicatorColor: AppColors.activeBlue,
+                      dividerHeight: 0.2,
+                      labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.activeBlue),
+                      tabs: [
+                        Tab(text: "ISIN Analysis"),
+                        Tab(text: "Pros & Cons"),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        physics:
+                            NeverScrollableScrollPhysics(), // Prevents swipe conflicts
+                        children: [
+                          _buildScrollableTabContent(
+                              _firstTabBarView(context, state)),
+                          _buildScrollableTabContent(
+                              _secondTabBarView(context, state)),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         }
         return Center(child: Text("No data"));
       }),
+    );
+  }
+
+  Widget _buildScrollableTabContent(Widget child) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(20),
+      child: child,
     );
   }
 
