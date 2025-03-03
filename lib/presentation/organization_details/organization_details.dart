@@ -606,6 +606,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
             ),
             minY: 0,
             maxY: 3,
+            barTouchData: BarTouchData(enabled: false),
           ),
         ));
   }
@@ -614,6 +615,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
     return SizedBox(
       height: 170,
       child: BarChart(
+        key: ValueKey(state.organisationDetails.financials.ebitda),
         BarChartData(
           barGroups: List.generate(
             state.organisationDetails.financials.ebitda.length,
@@ -701,6 +703,7 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
           ),
           minY: 0,
           maxY: 3,
+          barTouchData: BarTouchData(enabled: false),
         ),
       ),
     );
