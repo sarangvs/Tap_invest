@@ -61,7 +61,8 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
               SliverFillRemaining(
                 hasScrollBody: true,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20, top: 20),
                   child: DefaultTabController(
                     length: 2,
                     child: Column(
@@ -167,119 +168,84 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
                         Expanded(
                           child: TabBarView(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        left: 16, right: 16, top: 16),
-                                    width: double.infinity,
-                                    height: 250,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.1),
-                                          blurRadius: 10,
-                                          spreadRadius: 1,
-                                          offset: Offset(0.5, 0.5),
+                              _firstTabBarView(context, state),
+                              SingleChildScrollView(
+                                physics: NeverScrollableScrollPhysics(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(16),
+                                      width: double.infinity,
+                                      // height: 200,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.kwhite,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          width: 0.5,
+                                          color: AppColors.textSecondary
+                                              .withValues(alpha: 0.5),
                                         ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "company financials"
-                                                  .toUpperCase(),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black
+                                                .withValues(alpha: 0.1),
+                                            // blurRadius: 10,
+                                            spreadRadius: 0.5,
+                                            offset: Offset(0.5, 0.5),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 12),
+                                            child: Text(
+                                              "Pros and Cons",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodySmall!,
-                                            ),
-                                            Container(
-                                              // width: 120,
-                                              padding: EdgeInsets.all(3),
-                                              height: 25,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(99),
-                                                color: AppColors.inActiveColor,
-                                              ),
-                                              child: TabBar(
-                                                controller: tabController,
-                                                padding: EdgeInsets.zero,
-                                                indicatorPadding:
-                                                    EdgeInsets.zero,
-                                                dividerHeight: 0,
-                                                indicatorSize:
-                                                    TabBarIndicatorSize.tab,
-                                                indicator: CustomTabIndicator(
-                                                    tabController:
-                                                        tabController),
-                                                tabAlignment:
-                                                    TabAlignment.center,
-                                                tabs: [
-                                                  Text(
-                                                    "EBITDA",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall!
-                                                        .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 10,
-                                                          color:
-                                                              AppColors.kblack,
-                                                        ),
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                    color: AppColors.kblack,
                                                   ),
-                                                  Text(
-                                                    "Revenue",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall!
-                                                        .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          fontSize: 10,
-                                                          color:
-                                                              AppColors.kblack,
-                                                        ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        kheight30,
-                                        SizedBox(
-                                          height: 170,
-                                          child: TabBarView(
-                                            controller: tabController,
-                                            children: [
-                                              _ebitdaGraphWidget(
-                                                  state, context),
-                                              _revenueGraphWidget(
-                                                  state, context)
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Search Screen"),
-                                ],
+                                          kheight16,
+                                          Text(
+                                            "Pros",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                  color: AppColors.activeGreen,
+                                                ),
+                                          ),
+                                          kheight12,
+                                          ListView.separated(
+                                            separatorBuilder:
+                                                (context, index) => kheight20,
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            padding: EdgeInsets.zero,
+                                            itemCount: state.organisationDetails
+                                                .prosAndCons.pros.length,
+                                            itemBuilder: (context, index) {
+                                              final model = state
+                                                  .organisationDetails
+                                                  .prosAndCons
+                                                  .pros[index];
+                                              return Text(model);
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -294,6 +260,94 @@ class _OrganizationDetailsPageState extends State<OrganizationDetailsPage>
         }
         return Center(child: Text("No data"));
       }),
+    );
+  }
+
+  Column _firstTabBarView(BuildContext context, OrganizationLoaded state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+          width: double.infinity,
+          height: 250,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 10,
+                spreadRadius: 1,
+                offset: Offset(0.5, 0.5),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "company financials".toUpperCase(),
+                    style: Theme.of(context).textTheme.bodySmall!,
+                  ),
+                  Container(
+                    // width: 120,
+                    padding: EdgeInsets.all(3),
+                    height: 25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(99),
+                      color: AppColors.inActiveColor,
+                    ),
+                    child: TabBar(
+                      controller: tabController,
+                      padding: EdgeInsets.zero,
+                      indicatorPadding: EdgeInsets.zero,
+                      dividerHeight: 0,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator:
+                          CustomTabIndicator(tabController: tabController),
+                      tabAlignment: TabAlignment.center,
+                      tabs: [
+                        Text(
+                          "EBITDA",
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10,
+                                    color: AppColors.kblack,
+                                  ),
+                        ),
+                        Text(
+                          "Revenue",
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 10,
+                                    color: AppColors.kblack,
+                                  ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              kheight30,
+              Expanded(
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    _ebitdaGraphWidget(state, context),
+                    _revenueGraphWidget(state, context)
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 
